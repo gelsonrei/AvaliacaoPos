@@ -1,0 +1,6 @@
+*.pyc
+*~
+__pycache__
+myvenv
+dbAvalPos.sqlite3
+/static
