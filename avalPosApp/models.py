@@ -7,17 +7,16 @@ class Curso(models.Model):
     cod= models.CharField("Codigo Curso", default="ABC123",max_length=10, primary_key=True)
     titulo= models.CharField(max_length=250, null=True, blank=True)
     def __str__(self):
-        return self.titulo
+        return self.cod
 
 class Disciplina(models.Model):
     cod= models.CharField("Codigo Disciplina",  default="ABC123",max_length=10, primary_key=True)
     cod_curso= models.ForeignKey(Curso,default="ABC123", on_delete=models.CASCADE) 
     titulo= models.CharField(max_length=250,  null=True, blank=True)
     def __str__(self):
-        return self.titulo
+        return self.cod
 
 class Avaliacao(models.Model):
-    cod_curso = models.ForeignKey(Curso,default="ABC123", on_delete=models.CASCADE) 
     cod_disciplina = models.ForeignKey(Disciplina,default="DXX123", on_delete=models.CASCADE) 
     dt_ini = models.DateTimeField("Inicio",auto_now=False, auto_now_add=False, null=True, blank=True)
     dt_fim = models.DateTimeField("Fim",auto_now=False, auto_now_add=False, null=True, blank=True)
@@ -25,7 +24,7 @@ class Avaliacao(models.Model):
     updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return "%s - %s" %(self.cod_curso,self.cod_disciplina)
+        return "Avaliacao da disciplina %s" %(self.cod_disciplina)
 
 class Pergunta(models.Model):
     avaliacao = models.ForeignKey(Avaliacao, on_delete=models.CASCADE)
@@ -41,11 +40,12 @@ class Pergunta(models.Model):
         default='ME',
     )
 
+   
     def publish(self):
         self.save()
 
     def __str__(self):
-        return self.texto
+        return (self.texto)
 
 
 class Resposta(models.Model):

@@ -1,8 +1,29 @@
 {% extends "base.html" %} 
 
 {% block content %} 
-    {% for item in avaliacoes %}
-        <p>{{ item }}</p>
-
+    {{avaliacao}}
+    {% for pergunta in perguntas %}
+        <p>{{ pergunta.texto }}</p>
+       
+        {% if pergunta.tipoResposta == "ME" or pergunta.tipoResposta == "CS" %}
+            {% for resp in pergunta.resposta_set.all %}
+                {% if pergunta.tipoResposta == "ME" %}
+                    <div class="radio">
+                        <label><input type="radio" name="opt{{pergunta.pk}}" >{{ resp.texto }}</label>
+                    </div>
+                {% endif %}    
+                {% if pergunta.tipoResposta == "CS" %}
+                    <div class="checkbox">
+                        <label><input type="checkbox" value="" >{{ resp.texto }}</label>
+                    </div>
+                {% endif %}    
+            {% endfor %} 
+        {% endif %}
+        {% if pergunta.tipoResposta == "DC" %}
+            <div class="form-group">
+                <label for="Resposta">Resposta:</label>
+                <textarea class="form-control" rows="5" id="resposta{{pergunta.pk}}"></textarea>
+            </div>
+        {% endif %}
     {% endfor %} 
 {% endblock %}
