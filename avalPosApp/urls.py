@@ -2,6 +2,7 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', views.avaliacao_lista, name='avaliacao_lista'),
+    path('', views.home, name='home'),
     path('avaliacao/<str:codDisc>/', views.avaliacao_lista),
+    #path('insere/', views.avaliacao_perguntas_create_view),
 ]

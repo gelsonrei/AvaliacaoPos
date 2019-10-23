@@ -1,0 +1,9 @@
+{% extends "base.html" %} 
+
+{% block content %} 
+    {% for avaliacao in avaliacoes %}
+        <p>
+            <a href='{{ avaliacao.get_absolute_url }}'>{{ avaliacao }}</a>
+        </p>
+    {% endfor %} 
+{% endblock %}

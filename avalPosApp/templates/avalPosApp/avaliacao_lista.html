@@ -1,20 +1,22 @@
 {% extends "base.html" %} 
 
+{% load crispy_forms_tags %}
 {% block content %} 
-    {{avaliacao}}
+    <h3> {{avaliacao}}</h3>
+    <h4> {{cod_curso}} - {{curso}}</h4>
+    <form method='POST' action='.' id="respostaForm"> {% csrf_token %}
     {% for pergunta in perguntas %}
-        <p>{{ pergunta.texto }}</p>
-       
+        <h5>{{ pergunta.texto }}</h5>
         {% if pergunta.tipoResposta == "ME" or pergunta.tipoResposta == "CS" %}
             {% for resp in pergunta.resposta_set.all %}
                 {% if pergunta.tipoResposta == "ME" %}
                     <div class="radio">
-                        <label><input type="radio" name="opt{{pergunta.pk}}" >{{ resp.texto }}</label>
+                        <label><input type="radio" name="{{pergunta.pk}}" value="{{resp.texto }}" > {{ resp.texto }}</label>
                     </div>
                 {% endif %}    
                 {% if pergunta.tipoResposta == "CS" %}
                     <div class="checkbox">
-                        <label><input type="checkbox" value="" >{{ resp.texto }}</label>
+                        <label><input type="checkbox" name="{{pergunta.pk}}" value="{{resp.texto }}" > {{ resp.texto }}</label>
                     </div>
                 {% endif %}    
             {% endfor %} 
@@ -22,8 +24,11 @@
         {% if pergunta.tipoResposta == "DC" %}
             <div class="form-group">
                 <label for="Resposta">Resposta:</label>
-                <textarea class="form-control" rows="5" id="resposta{{pergunta.pk}}"></textarea>
+                <textarea class="form-control" name="{{pergunta.pk}}" rows="5" value="{{resp.texto }}"></textarea>
             </div>
         {% endif %}
+        
     {% endfor %} 
+    <button type='submit'>Send</button>
+    </form> 
 {% endblock %}
