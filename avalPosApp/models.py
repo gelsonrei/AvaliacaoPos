@@ -27,7 +27,7 @@ class Avaliacao(models.Model):
         return f"/avaliacao/{self.cod_disciplina}"
 
     def __str__(self):
-        return "Avaliacao da disciplina %s" %(self.cod_disciplina)
+        return "Avaliacao - %s" %(self.cod_disciplina)
 
 class Pergunta(models.Model):
     avaliacao = models.ForeignKey(Avaliacao, on_delete=models.CASCADE)
@@ -38,7 +38,7 @@ class Pergunta(models.Model):
         ('CS', 'Caixa de Seleção'),
     ]
  
-    tipoResposta = models.CharField(
+    tipo_resposta = models.CharField(
         max_length=2,
         choices=TIPO_ALTERNATIVAS,
         default='ME',
@@ -52,7 +52,7 @@ class Pergunta(models.Model):
         return (self.texto)
 
 
-class Resposta(models.Model): #OPCOES
+class RespostaOpcao(models.Model): #OPCOES
     cod_pergunta =  models.ForeignKey(Pergunta, on_delete=models.CASCADE)
     texto = models.CharField(max_length=1000) 
     
@@ -62,12 +62,7 @@ class Resposta(models.Model): #OPCOES
 class Opcao(models.Model): #OPCOES
     cod_pergunta =  models.ForeignKey(Pergunta, on_delete=models.CASCADE)
     texto = models.CharField(max_length=1000) 
-    tipoOpcao = models.CharField(
-        max_length=2,
-        choices=Pergunta.TIPO_ALTERNATIVAS,
-        default='ME',
-    )
-
+ 
     def __str__(self):
         return self.texto
 

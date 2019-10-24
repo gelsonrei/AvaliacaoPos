@@ -1,10 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.db import models
 import hashlib
 import datetime
 import random
 
-from .models import Avaliacao, Curso, Disciplina, Pergunta, AvaliacaoResposta, Opcao, AvaliacaoRegistro
+from .models import Avaliacao, Curso, Disciplina, Pergunta, AvaliacaoResposta, RespostaOpcao, AvaliacaoRegistro
 #from .forms import AvaliacaoRespostasModelForm
 
 
@@ -20,7 +20,9 @@ from .models import Avaliacao, Curso, Disciplina, Pergunta, AvaliacaoResposta, O
 
 def avaliacao_lista(request, codDisc):
     #avaliacoes = Avaliacao.objects.all()
+
     cod_curso = Disciplina.objects.get(cod=codDisc).cod_curso
+    print(cod_curso)
     curso_titulo = Curso.objects.get(cod=cod_curso).titulo
     avaliacao = Avaliacao.objects.get(cod_disciplina=codDisc)
     perguntas = avaliacao.pergunta_set.all()
@@ -29,8 +31,9 @@ def avaliacao_lista(request, codDisc):
 
     
     if(request.POST):
-        s = curso_titulo + str(cod_curso) + str(avaliacao) + str(datetime.datetime.now()) + str(random.randint(0,1000))
-        hash = int(hashlib.sha256(s.encode('utf-8')).hexdigest(), 16) 
+        #s = curso_titulo + str(cod_curso) + str(avaliacao) + str(datetime.datetime.now()) + str(random.randint(0,1000))
+        #hash = int(hashlib.sha256(s.encode('utf-8')).hexdigest(), 16) 
+        hash = request.POST['csrfmiddlewaretoken']
         print(hash)
         avaliacao_registro = AvaliacaoRegistro(cod_avaliacao=avaliacao,hash_avaliacao=hash)
         avaliacao_registro.save()
@@ -42,23 +45,15 @@ def avaliacao_lista(request, codDisc):
                 value = request.POST.getlist(key)
                 txt_pergunta = Pergunta.objects.get(pk=int(key)).texto
 
-                # print(int(key))
-                # print(value)
-                # print(len(value))
-                # sz = len(value) 
-                # if (sz == 1):
-                #     value = request.POST(key)
                 for v in value:
                     reg = AvaliacaoResposta(
-                        #cod_curso=cod_curso,
-                        #cod_disciplina=codDisc,
-                        #cod_avaliacao=avaliacao,
                         id_registro = avaliacao_registro,
                         texto_pergunta = txt_pergunta, 
                         cod_pergunta = int(key),
                         texto_resposta = v
                     )
                     reg.save()
+        return redirect("/enviado")
                
 
 
@@ -85,3 +80,5 @@ def home(request):
     }
     return render(request, 'avalPosApp/home.html', context)
 
+def finalizado(request):
+    return render(request, 'avalPosApp/final.html', {})
