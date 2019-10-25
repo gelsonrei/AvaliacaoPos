@@ -1,0 +1,9 @@
+{% extends "base.html" %} 
+
+{% block content %} 
+    {{avaliacao.titulo}}
+    {{disciplina.titulo}}
+    {% for r in respostas %}
+       {{r}}
+    {% endfor %} 
+{% endblock %}

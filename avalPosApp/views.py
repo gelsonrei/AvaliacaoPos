@@ -63,6 +63,33 @@ def avaliacao_lista(request, cod_disc, slug_aval):
     }
     return render(request, template_name, context)
 
+
+def relatorio(request, cod_disc, slug_aval):
+    avaliacao = Avaliacao.objects.get(slug = slug_aval)
+    disciplina = Disciplina.objects.get(cod = cod_disc)
+
+    aplicacao_registro = AplicacaoRegistro.objects.all().filter(cod_avaliacao=avaliacao, disciplina=disciplina)
+    aplicacao_respostas = AplicacaoResposta.objects.filter(id_registro=aplicacao_registro)
+
+    print(avaliacao)
+    print(disciplina)
+    print(aplicacao_registro)
+    #print(aplicacao_respostas)
+
+    # for i in aplicacao_respostas:
+    #     print(i.texto_pergunta)
+    #     print(i.texto_resposta)
+
+    context = {}
+
+    # context = {
+    #     'avaliacao':avaliacao,
+    #     'disciplina':disciplina,
+    #     'registro':aplicacao_registro,
+    #     'respostas':aplicacao_respostas
+    # }
+    return render(request, 'avalPosApp/relatorio.html', context)
+
 def home(request):
     avaliacao = AvaliacaoDisciplina.objects.all()
 
@@ -73,3 +100,5 @@ def home(request):
 
 def finalizado(request):
     return render(request, 'avalPosApp/final.html', {})
+
+

@@ -86,6 +86,7 @@ class PerguntaRespostaOpcao(models.Model):
 
 class AplicacaoRegistro(models.Model):
     cod_avaliacao = models.ForeignKey(Avaliacao, on_delete=models.CASCADE)
+    disciplina = models.ForeignKey(Disciplina, on_delete=models.CASCADE)
     hash_avaliacao  = models.CharField(max_length=100)
 
     def __str__(self):

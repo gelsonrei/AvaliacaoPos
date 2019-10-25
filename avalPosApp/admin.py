@@ -150,12 +150,13 @@ class PerguntaRespostaOpcaoAdmin(MaterialModelAdmin):
 @register(AplicacaoRegistro)
 class AplicacaoRegistroAdmin(MaterialModelAdmin):
     icon_name ='reorder'
-    list_display = ('pk','cod_avaliacao','hash_avaliacao')
+    list_display = ('pk','disciplina','cod_avaliacao','hash_avaliacao')
     list_display_links = ('cod_avaliacao','hash_avaliacao')
     fieldsets = (
         (None, { 
             'fields':(
                 'pk'
+                'disciplina',
                 'cod_avaliacao',
                 'hash_avaliacao'
             )
