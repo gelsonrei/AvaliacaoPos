@@ -1,9 +1,9 @@
 {% extends "base.html" %} 
 
 {% block content %} 
-    {% for avaliacao in avaliacoes %}
+    {% for av in avaliacoes %}
         <p>
-            <a href='{{ avaliacao.get_absolute_url }}' class="btn btn-info" role="button" >{{ avaliacao }}</a>
+            <a href='{{ av.get_absolute_url }}' class="btn btn-info" role="button" >{{ av.avaliacao.descricao }} {{ av.disciplina }}</a>
            
         </p>
     {% endfor %} 

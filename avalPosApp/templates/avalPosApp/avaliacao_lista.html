@@ -3,39 +3,42 @@
 {% load crispy_forms_tags %}
 {% block content %} 
     <div class="jumbotron bg-success"  style='padding:2rem 1rem; color: white;'>
-        <h3> {{avaliacao}}</h3>
-         <h4> {{cod_curso}} - {{curso}}</h4>
+        <h3> {{avaliacao.descricao}}</h3>
+        <h4> {{cod_disciplina}} - {{disciplina}}</h4>
+        <h5> {{cod_curso}} - {{curso}}</h5>
     </div>
     
    
     <form method='POST' action='.' id="respostaForm"> {% csrf_token %}
-    {% for pergunta in perguntas %}
+    {% for p in perguntas %}
     <div class="card" style='margin: 10px 0px'>
-        <div class="card-header">{{ pergunta.texto }}</div>
+        <div class="card-header">{{ p.pergunta.texto }}</div>
         <div class="card-body">
-            {% if pergunta.tipo_resposta == "ME" or pergunta.tipo_resposta == "CS" %}
+            {% if p.pergunta.tipo_resposta == "ME" or p.pergunta.tipo_resposta == "CS" %}
                 <div class="form-check-inline">
-                {% for resp in pergunta.respostaopcao_set.all %}
-                    {% if pergunta.tipo_resposta == "ME" %}
-                        <div class="form-group custom-control custom-radio " style='margin-right: inherit;'>
-                            <input type="radio" class="custom-control-input" id="rd{{resp.pk}}" name="{{pergunta.pk}}" value="{{resp.texto }}" > 
-                            <label class="custom-control-label" for="rd{{resp.pk}}"> {{ resp.texto }} </label>
-                        </div>
-                    {% endif %}    
-                    {% if pergunta.tipo_resposta == "CS" %}
-                        <div class="form-group custom-control custom-checkbox " style='margin-right: 1rem;'>
-                            <input type="checkbox" class="custom-control-input"  id="rd{{resp.pk}}" name="{{pergunta.pk}}" value="{{resp.texto }}" > 
-                            <label class="custom-control-label" for="rd{{resp.pk}}">{{ resp.texto }}</label>
-                        </div>
-                    {% endif %}    
+                {% for resp in opcoes  %}
+                    {% if resp.pergunta == p.pergunta %}
+                        {% if p.pergunta.tipo_resposta == "ME" %}
+                            <div class="form-group custom-control custom-radio " style='margin-right: inherit;'>
+                                <input type="radio" class="custom-control-input" id="rd{{resp.pk}}" name="{{p.pergunta.pk}}" value="{{resp.resposta_opcao.texto }}" > 
+                                <label class="custom-control-label" for="rd{{resp.pk}}"> {{ resp.resposta_opcao }} </label>
+                            </div>
+                        {% endif %}    
+                        {% if p.pergunta.tipo_resposta == "CS" %}
+                            <div class="form-group custom-control custom-checkbox " style='margin-right: 1rem;'>
+                                <input type="checkbox" class="custom-control-input"  id="rd{{resp.pk}}" name="{{p.pergunta.pk}}" value="{{resp.resposta_opcao.texto }}" > 
+                                <label class="custom-control-label" for="rd{{resp.pk}}">{{ resp.resposta_opcao }}</label>
+                            </div>
+                        {% endif %}    
+                    {% endif %}
                 {% endfor %} 
                 </div>
             {% endif %}
         
-            {% if pergunta.tipo_resposta == "DC" %}
+            {% if p.pergunta.tipo_resposta == "DC" %}
                 <div class="form-group">
                     <label for=id="rd{{resp.pk}}">Resposta:</label>
-                    <textarea class="form-control" name="{{pergunta.pk}}" id="rd{{resp.pk}}" rows="5" value="{{resp.texto }}"></textarea>
+                    <textarea class="form-control" name="{{p.pergunta.pk}}" id="rd{{resp.pk}}" rows="5" value="{{resp.resposta_opcao.texto  }}"></textarea>
                 </div>
             {% endif %}
         </div>
