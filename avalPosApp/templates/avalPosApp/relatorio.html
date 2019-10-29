@@ -1,9 +1,33 @@
 {% extends "base.html" %} 
 
+
 {% block content %} 
-    {{avaliacao.titulo}}
-    {{disciplina.titulo}}
-    {% for r in respostas %}
-       {{r}}
-    {% endfor %} 
+    <div class="jumbotron bg-success"  style='padding:2rem 1rem; color: white;'>
+        <h3> {{registro.cod_avaliacao.descricao}}</h3>
+        <h4> {{registro.disciplina}} - {{registro.disciplina.titulo}}</h4>
+        <h5> {{registro.disciplina.cod_curso}} - {{registro.disciplina.cod_curso.titulo}}</h5>
+    </div>
+
+     <div class="table-responsive">
+        <table class="table table-sm">
+             <thead>
+                <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Pergunta</th>
+                <th scope="col">Resposta</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for r in respostas %}
+                <tr>
+                <th scope="row">{{r.cod_pergunta}} </th>
+                <td> {{r.texto_pergunta}}</td>
+                <td> {{r.texto_resposta}}</td>
+                </tr>
+                <tr>
+                {% endfor %} 
+            </tbody>
+        </table>
+    </div>
+   
 {% endblock %}

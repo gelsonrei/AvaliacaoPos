@@ -1,0 +1,9 @@
+{% extends "base.html" %} 
+
+{% block content %} 
+    {% for reg in registros %}
+        <p>
+            <a href='{{ reg.get_absolute_url }}' class="btn btn-info" role="button" > {{reg.cod_avaliacao.slug }} {{reg.disciplina.cod }}</a>
+        </p>
+    {% endfor %} 
+{% endblock %}

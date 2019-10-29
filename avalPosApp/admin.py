@@ -6,6 +6,8 @@ from django.contrib.admin import SimpleListFilter
 from .models import Avaliacao,Pergunta, Curso, Disciplina, RespostaOpcao, AvaliacaoPergunta, PerguntaRespostaOpcao, AvaliacaoDisciplina, AplicacaoRegistro, AplicacaoResposta
 
 
+
+
 @register(Curso)
 class CursoAdmin(MaterialModelAdmin):
     icon_name = 'school'

@@ -1,0 +1,36 @@
+{% extends "base.html" %} 
+{% load meusFiltros %}
+
+{% block content %} 
+
+
+    <div class="jumbotron bg-success"  style='padding:2rem 1rem; color: white;'>
+        <h3> {{avaliacao.descricao}}</h3>
+        <h4> {{disciplina}} - {{disciplina.titulo}}</h4>
+        <h5> {{disciplina.cod_curso}} - {{disciplina.cod_curso.titulo}}</h5>
+    </div>
+
+     <div class="table-responsive">
+        <table class="table table-sm">
+             <thead>
+                <tr>
+                {% for p in perguntas %}
+                    <th scope="col">{{p.pergunta}}</th>
+                {% endfor %} 
+                </tr>
+            </thead>
+            <tbody>
+                {% for r in aplicacaoRegistro %}
+                <tr>
+                    {% for resp in aplicacaoRespostas|in_reg:r %}
+                    <td> <a href='{{ r.get_absolute_url }}'> {{resp.texto_resposta}} </a></td>
+                    {% endfor %} 
+                </tr>
+                {% endfor %} 
+                <tr>
+            </tbody>
+        </table>
+    </div>
+
+   
+{% endblock %}

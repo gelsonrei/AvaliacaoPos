@@ -1,0 +1,10 @@
+{% extends "base.html" %} 
+
+{% block content %} 
+   {% for reg in avaliacaoDisciplina %}
+        <p>
+            <a href='{{ reg.get_respostas_url }}' class="btn btn-info" role="button" > {{reg.avaliacao.descricao }} {{reg.disciplina.cod }}</a>
+        </p>
+    {% endfor %} 
+   
+{% endblock %}

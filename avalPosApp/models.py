@@ -64,6 +64,8 @@ class AvaliacaoDisciplina(models.Model):
 
     def get_absolute_url(self):
         return f"/avaliacao/{self.disciplina}/{self.avaliacao.slug}/"
+    def get_respostas_url(self):
+        return f"/respostas/{self.disciplina}/{self.avaliacao.slug}/"
 
 class RespostaOpcao(models.Model): 
     texto = models.CharField(max_length=1000, unique=True) 
@@ -92,11 +94,13 @@ class AplicacaoRegistro(models.Model):
     def __str__(self):
         return f"{self.pk}"
 
+    def get_absolute_url(self):
+        disc = self.disciplina.cod 
+        slug = self.cod_avaliacao.slug
+        return f"/relatorio/{self.hash_avaliacao}"
+
 class AplicacaoResposta(models.Model):
     id_registro =  models.ForeignKey(AplicacaoRegistro, on_delete=models.CASCADE)
-    # cod_curso = models.CharField(max_length=10)
-    # cod_disciplina = models.CharField(max_length=10)
-    # cod_avaliacao = models.CharField(max_length=10)
     cod_pergunta =  models.IntegerField()
     texto_pergunta = models.CharField(max_length=1000) 
     texto_resposta = models.CharField(max_length=1000)
@@ -105,6 +109,10 @@ class AplicacaoResposta(models.Model):
     def __str__(self):
         return f"{self.id_registro}"
 
+    def get_absolute_url(self):
+        return f"/relatorio/{self.id_registro.hash_avaliacao}"
+
+   
 
 
 
